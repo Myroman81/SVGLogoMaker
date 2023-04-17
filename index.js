@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const { Circle, Square, Triangle } = require("./lib/shapes");
+const { Circle, Square, Triangle } = require("./lib/shapes.js");
+const setShape = require("./lib/shapes.js");
 
 function init() {
     inquirer
@@ -13,7 +14,7 @@ function init() {
             {
                 type: "input",
                 message: "Please choose a color for your text.  (Color keyword or heixdecimal value)",
-                name: "tectColor",
+                name: "textColor",
             },
             {
                 type: "list",
@@ -24,7 +25,7 @@ function init() {
             {
                 type: "input",
                 message: "Please choose a color for your previously chosen shape.  (Color keyword or heixdecimal value)",
-                name: "shapeBackgroundColor",
+                name: "backgroundColor",
             },
         ])
         .then((response) => {
@@ -32,10 +33,24 @@ function init() {
                 console.log("Please enter a maximum of 3 characters");
             }
             else {
-                    writeToFile("logo", response);
+                    createLogo(response);
                 }
             });}
-            function writeToFile(fileName, response) {
-                let svgString = "";
-                string = '<svg version="1.1" width="300" height="200" xmlns= "http://www.w3.org/2000/svg">';
-        
+           
+            function setShape(response) {
+
+                if (response.shape === "Circle") {
+                    let userShape = new Circle (response.backgroundColor, response.text, response.textColor)
+                    return userShape.render()
+                }
+            
+                if (response.shape === "Square") {
+                    let userShape = new Square (response.backgroundColor, response.text, response.textColor)
+                    return userShape.render()
+                }
+            
+                if (response.shape === "Triangle") {
+                    let userShape = new Triangle (response.backgroundColor, response.text, response.textColor)
+                    return userShape.render()
+                }
+            };
