@@ -3,7 +3,6 @@ const fs = require("fs");
 const { Circle, Square, Triangle } = require("./lib/shapes.js");
 const setShape = require("./lib/shapes.js");
 
-function init() {
     inquirer
         .prompt([
             {
@@ -19,7 +18,7 @@ function init() {
             {
                 type: "list",
                 message: "Please choose one of three shapes for your logo",
-                name: "shapes",
+                name: "shape",
                 choices: ["Circle", "Square", "Triangle"]
             },
             {
@@ -33,24 +32,30 @@ function init() {
                 console.log("Please enter a maximum of 3 characters");
             }
             else {
-                    createLogo(response);
+                console.log(response);
+                    renderShape(response);
                 }
-            });}
+            });
            
-            function setShape(response) {
-
+            function renderShape(response) {
+                let userShape;
                 if (response.shape === "Circle") {
-                    let userShape = new Circle (response.backgroundColor, response.text, response.textColor)
-                    return userShape.render()
+                    userShape = new Circle (response.backgroundColor, response.text, response.textColor)
+                    userShape = userShape.render()
                 }
             
                 if (response.shape === "Square") {
-                    let userShape = new Square (response.backgroundColor, response.text, response.textColor)
-                    return userShape.render()
+                    userShape = new Square (response.backgroundColor, response.text, response.textColor)
+                    userShape = userShape.render()
                 }
             
                 if (response.shape === "Triangle") {
-                    let userShape = new Triangle (response.backgroundColor, response.text, response.textColor)
-                    return userShape.render()
-                }
-            };
+                    userShape = new Triangle (response.backgroundColor, response.text, response.textColor)
+                    userShape = userShape.render()
+                } 
+                console.log(userShape);  
+                fs.writeFile("logo.svg", userShape, (err) => {
+                    console.log(err);
+                })
+            }
+            //module.exports = setShape;
